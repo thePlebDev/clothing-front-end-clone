@@ -5,7 +5,9 @@ const MainImage =()=>{
 
 
   return(
-    <div>This is where the main image will go</div>
+    <img style={{width:'100vw'}}
+     src='https://images.unsplash.com/photo-1512436991641-6745cdb1723f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80' alt={'assorted clothes'}>
+    </img>
   )
 }
 

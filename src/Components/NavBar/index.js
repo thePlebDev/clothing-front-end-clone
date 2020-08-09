@@ -49,7 +49,7 @@ const CartItem = styled.div`
 
 const NavBar = ()=>{
   return(
-    <div style={{border:'1px solid red'}}>
+    <div>
       <Container>
           <SubContainer>
             <Item>

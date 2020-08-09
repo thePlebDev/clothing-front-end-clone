@@ -1,7 +1,8 @@
 import React from 'react';
 
 import NavBar from '../NavBar';
-import MainImage from '../MainImage'
+import MainImage from '../MainImage';
+import Text from '../StyledText';
 
 const App = ()=>{
 
@@ -9,6 +10,7 @@ const App = ()=>{
     <div>
       <NavBar />
       <MainImage />
+      <Text/>
     </div>
   )
 }
