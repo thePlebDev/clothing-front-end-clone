@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import styled from 'styled-components';
 
 
@@ -19,6 +19,7 @@ const Input = styled.input`
   margin:1em;
   outline:none;
   font-size:1em;
+  box-shadow: ${props=> props.state ? '0px 1px 5px rgba(0,0,0,0.2)': '0'};
 
 `
 const Button = styled.button`
@@ -36,6 +37,8 @@ const Button = styled.button`
 
 const SearchForm = ()=>{
   const [searchState,setSearchState] = useState({search:''})
+  const [state,setState] = useState(false)
+  const node = useRef();
 
   const handleChange = (e)=>{
     const {name,value} = e.target
@@ -46,12 +49,27 @@ const SearchForm = ()=>{
     e.preventDefault();
     console.log('submitted')
   }
+  const handleClick =(e)=>{
+    if(node.current.contains(e.target)){
+      setState(true)
+    }else{
+      setState(false)
+    }
+  }
+
+  useEffect(()=>{
+    document.addEventListener("mousedown",handleClick);
+
+    return()=>{
+      document.removeEventListener("mousedown", handleClick)
+    }
+  },[])
 
   return(
     <Container>
       <form onSubmit={(e)=>{handleSubmit(e)}}>
         <label>
-          <Input type='text' name='search' value={searchState.search} placeholder="SEARCH"  onChange={(e)=>{handleChange(e)}}></Input>
+          <Input type='text' state={state} ref={node} name='search' value={searchState.search} placeholder="SEARCH"  onChange={(e)=>{handleChange(e)}}></Input>
         </label>
 
         <Button type='submit'><i className="fa fa-search"></i></Button>
