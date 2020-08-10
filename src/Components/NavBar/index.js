@@ -1,10 +1,10 @@
-import React from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components'
 
 import SearchForm from '../SearchForm';
+import MobileSideBar from '../MobileSideBar'
 
 const Container = styled.div`
-
     display:flex;
     justify-content:space-between;
     border-bottom:1px solid #062944;
@@ -43,16 +43,18 @@ const CartItem = styled.div`
 
 
 
-
-
-
-
 const NavBar = ()=>{
+  const [sideBarState,setSideBarState] = useState(true)
+
+  const handleClick =()=>{
+    setSideBarState(!sideBarState)
+    console.log(sideBarState)
+  }
   return(
-    <div>
+    <div style={{display:'relative'}}>
       <Container>
           <SubContainer>
-            <Item>
+            <Item onClick={()=>handleClick()}>
               <Hamburger></Hamburger>
               <Hamburger></Hamburger>
               <Hamburger></Hamburger>
@@ -70,6 +72,8 @@ const NavBar = ()=>{
           </SubContainer>
       </Container>
       <SearchForm />
+      <MobileSideBar state={sideBarState} />
+
     </div>
   )
 }
