@@ -1,16 +1,19 @@
 import React from 'react';
+import {Switch,Route} from 'react-router-dom'
 
 import NavBar from '../NavBar';
-import MainImage from '../MainImage';
-import Text from '../StyledText';
+import Home from '../../StatelessComponents/Home';
+import Jackets from '../Jackets';
 
 const App = ()=>{
 
   return(
     <div>
       <NavBar />
-      <MainImage />
-      <Text/>
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/jackets' component={Jackets} />
+      </Switch>
     </div>
   )
 }
