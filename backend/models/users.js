@@ -1,24 +1,46 @@
 const mongoose = require ('mongoose');
+const bcrypt = require('bcrypt-nodejs');
+
 const Schema = mongoose.Schema;
+const SALT_FACTOR = 10
 
 const userSchema = new Schema({
-  username:{type:String,unique:true,required:true}
-},{timestamps:true})
+  username:{type:String,unique:true,required:true},
+  password:{ type:String,required:true},
+  createdAt:{type:Date,default:Date.now},
+  displayName: String,
+  bio:String
+})
 
-
-userSchema.statics.findByLogin = async function (login){
-  let user = await this.findOnde({
-    email:login
-  });
-  if(!user){
-    user = await this.findOne({email: login });
-  }
-  return user;
+userSchema.methods.name = function(){
+  return this.displayName || this.username;
 }
 
-userSchema.pre('remove',function(next){
-  this.model('Item').deleteMany({user:this._id},next);
+const noop = function(){}
+
+userSchema.pre('save', function(done){
+  let user = this;
+  if(!user.isModified("password")){
+    return done();
+  }
+  bcrypt.genSalt(SALT_FACTOR, function(err,salt){
+    if(err){return done(err); }
+    bcrypt.hash(user.password,salt,noop,
+    function(err,hashedPassword){
+      if(err){return done(err);}
+      user.password = hashedPassword
+      done()
+    })
+  })
 })
+
+userSchema.methods.checkPassword = function(guess,done){
+  bcrypt.compare(guess,this.password,function(err,isMatch){
+    done(err,isMatch);
+  });
+};
+
+
 
 const User = mongoose.model('User', userSchema);
 
