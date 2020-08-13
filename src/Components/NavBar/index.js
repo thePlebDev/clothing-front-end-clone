@@ -44,7 +44,7 @@ const CartItem = styled.div`
 
 
 const NavBar = ()=>{
-  const [sideBarState,setSideBarState] = useState(true)
+  const [sideBarState,setSideBarState] = useState(false)
 
   const handleClick =()=>{
     setSideBarState(!sideBarState)
