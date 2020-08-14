@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const url = require('./DBConstants');
 
@@ -13,12 +14,13 @@ const jeanRouter = require('./APIVersion1/Jeans')
 const trainerRouter = require('./APIVersion1/Trainers')
 const tshirtRouter = require('./APIVersion1/Tshirts')
 const searchRouter = require('./APIVersion1/Search')
+const registerRouter = require('./APIVersion1/Register')
 
 const app = express();
 const port = 3001
 
 mongoose.connect(url,{useNewUrlParser:true})
-
+app.use(bodyParser.urlencoded({extended:false}))
 
 app.use('/v1/jackets',jacketRouter);
 app.use('/v1/jeans',jeanRouter);
@@ -26,6 +28,7 @@ app.use('/v1/tshirts',tshirtRouter);
 app.use('/v1/accessories',accessoriesRouter);
 app.use('/v1/trainers',trainerRouter);
 app.use('/v1/search',searchRouter);
+app.use('/v1/register',registerRouter);
 
 db.once('open',_=>{
   console.log('database connected')
